@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trident Motors | Premium 3D Dealership</title>
+
+<style>
+:root {
+  --primary: #00d4ff; 
+  --secondary: #0072ff; 
+  --bg-dark: #020617; 
+  --bg-card: #0f172a; 
+  --text-main: #f8fafc;
+  --accent-glow: rgba(0, 212, 255, 0.3);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #020617;
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  background: var(--bg-dark);
+  padding: 10px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--primary);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-container img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--primary);
+}
+
+/* BUTTONS */
+button {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(45deg, var(--secondary), var(--primary));
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+button:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 10px 20px var(--accent-glow);
+}
+
+/* INPUTS */
+input, select {
+  padding: 14px;
+  width: 100%;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+  background: #1e293b;
+  color: white;
+  box-sizing: border-box;
+}
+
+/* PAGE ANIMATIONS - KEPT AS PER ORIGINAL */
+.page {
+  display: none;
+  animation: fadeSlide 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 40px 5%;
+}
+
+.page.active { display: block; }
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: perspective(1000px) rotateX(-10deg) translateY(40px); }
+  to { opacity: 1; transform: perspective(1000px) rotateX(0) translateY(0); }
+}
+
+/* 3D CAR GRID */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  perspective: 1000px;
+}
+
+.car-card {
+  background: var(--bg-card);
+  padding: 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.5s ease;
+  border: 1px solid #1e293b;
+  text-align: center;
+  transform-style: preserve-3d;
+}
+
+.car-card:hover {
+  transform: rotateY(10deg) rotateX(5deg) translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: -15px 15px 30px rgba(0, 212, 255, 0.2);
+}
+
+.car-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+/* DETAILS SECTION */
+.details-layout {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--bg-dark);
+  padding: 40px;
+  border-radius: 30px;
+  border: 1px solid #1e293b;
+}
+
+.details-layout img {
+  flex: 1;
+  max-width: 550px;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.price {
+  font-size: 36px;
+  color: var(--primary);
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+.form-box {
+  background: #0f172a;
+  padding: 40px;
+  border-radius: 20px;
+  border-left: 5px solid var(--primary);
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
+}
+
+.pay-option {
+  background: #1e293b; 
+  color: white; 
+  border: 1px solid var(--primary);
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.pay-option.selected {
+  background: var(--secondary);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+.emi-info-box {
+  background: rgba(0, 212, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px dashed var(--primary);
+  margin: 15px 0;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <img src="https://raw.githubusercontent.com/preetgohil22/images/main/logo.jpeg" alt="Logo">
+    <h2>Trident Motors</h2>
+  </div>
+  <button onclick="showPage('login')">Login</button>
+</header>
+
+<section id="login" class="page active">
+  <div style="max-width: 400px; margin: 80px auto; text-align: center;" class="form-box">
+    <h2>Client Signin</h2>
+    <input type="email" id="loginEmail" placeholder="Email Address">
+    <input type="password" id="loginPass" placeholder="Password">
+    <button onclick="validateLogin()" style="width: 100%;">Sign In</button>
+  </div>
+</section>
+
+<section id="cars" class="page">
+  <h1 style="text-align: center; color: var(--primary); margin-bottom: 40px;">Featured Showroom</h1>
+  <div class="car-grid">
+    <div class="car-card" onclick="openDetails('Hyundai Creta', 'https://raw.githubusercontent.com/preetgohil22/images/main/creta.jpg', 1500000, 'Luxury SUV | Panoramic Sunroof')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/creta.jpg"><h3>Hyundai Creta</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Toyota Fortuner', 'https://raw.githubusercontent.com/preetgohil22/images/main/fortuner.jpg', 3500000, 'The Legend | 4x4 Capability')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/fortuner.jpg"><h3>Toyota Fortuner</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Mahindra Thar', 'https://raw.githubusercontent.com/preetgohil22/images/main/thar.jpg', 1650000, 'Explore the Impossible | 4WD King')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/thar.jpg"><h3>Mahindra Thar</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Kia Seltos', 'https://raw.githubusercontent.com/preetgohil22/images/main/seltos.jpg', 1480000, 'Tech-Forward SUV | Bose Sound')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/seltos.jpg"><h3>Kia Seltos</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Tata Nexon', 'https://raw.githubusercontent.com/preetgohil22/images/main/nexon.jpg', 1200000, '5-Star Safety | Turbo Performance')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/nexon.jpg"><h3>Tata Nexon</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Maruti Swift', 'https://raw.githubusercontent.com/preetgohil22/images/main/swift.jpg', 850000, 'Sporty Performance | High Mileage')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/swift.jpg"><h3>Maruti Swift</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Maruti Baleno', 'https://raw.githubusercontent.com/preetgohil22/images/main/baleno.jpg', 920000, 'Premium Hatchback | 360 Camera')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/baleno.jpg"><h3>Maruti Baleno</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Maruti Brezza', 'https://raw.githubusercontent.com/preetgohil22/images/main/brezza.jpg', 1150000, 'Bold Compact SUV | Sunroof')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/brezza.jpg"><h3>Maruti Brezza</h3>
+    </div>
+    <div class="car-card" onclick="openDetails('Hyundai Verna', 'https://raw.githubusercontent.com/preetgohil22/images/main/verna.jpg', 1600000, 'Futuristic Sedan | Turbo Beast')">
+      <img src="https://raw.githubusercontent.com/preetgohil22/images/main/verna.jpg"><h3>Hyundai Verna</h3>
+    </div>
+  </div>
+<button onclick="submitBooking()">Complete Booking</button>
+</section>
+
+<section id="details" class="page">
+  <button onclick="showPage('cars')" style="margin-bottom: 20px; background: transparent; border: 1px solid var(--primary);">← Back to Showroom</button>
+  <div class="details-layout">
+    <img id="dImg" src="">
+    <div class="details-info">
+      <h2 id="dName" style="font-size: 45px; margin-bottom: 10px;"></h2>
+      <p id="dInfo" style="font-size: 20px; color: #94a3b8;"></p>
+      <div class="price" id="dPrice"></div>
+      
+      <div class="emi-info-box">
+          <h4 style="margin: 0; color: var(--primary);">EMI Estimate (9% Interest)</h4>
+          <select id="detailTenure" onchange="calculateDetailEMI()">
+              <option value="36">3 Years</option>
+              <option value="60" selected>5 Years</option>
+          </select>
+          <p>Monthly: <span id="detailEMIResult" style="color:#22c55e; font-weight:bold;">-</span></p>
+      </div>
+
+      <button onclick="showPage('register')" style="padding: 15px 60px;">Proceed to Booking</button>
+    </div>
+  </div>
+</section>
+
+<section id="register" class="page">
+  <button onclick="showPage('details')" style="margin-bottom: 20px; background: transparent; border: 1px solid var(--primary);">← Back</button>
+  <div style="max-width: 600px; margin: 0 auto;" class="form-box">
+    <h2>Buyer Registration</h2>
+    <input type="text" id="regName" placeholder="Full Name">
+    <input type="email" id="regEmail" placeholder="Email Address">
+    <input type="tel" id="regPhone" placeholder="Mobile Number">
+    <input type="text" id="regAddress" placeholder="Full Delivery Address">
+    
+    <label style="color:var(--primary); font-size: 14px; margin-top: 10px; display: block;">Choose Car Colour:</label>
+    <select id="regColor">
+        <option value="Polar White">Polar White</option>
+        <option value="Phantom Black">Phantom Black</option>
+        <option value="Titan Grey">Titan Grey</option>
+        <option value="Fiery Red">Fiery Red</option>
+    </select>
+
+    <button onclick="validateBooking()" style="width: 100%; margin-top: 20px;">Continue to Payment</button>
+  </div>
+</section>
+
+<section id="payment" class="page">
+  <button onclick="showPage('register')" style="margin-bottom: 20px; background: transparent; border: 1px solid var(--primary);">← Back</button>
+  <div class="form-box" style="max-width: 450px; margin: 0 auto; text-align: center;">
+    <h2>Payment Method</h2>
+    <div id="payment-options">
+      <button class="pay-option" onclick="selectPay('Full Payment')">Debit / Credit Card (Full)</button>
+      <button class="pay-option" onclick="selectPay('Net Banking')">Net Banking</button>
+      
+      <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; margin-top: 10px;">
+          <p style="margin: 5px 0;">Pay via Monthly EMI:</p>
+          <select id="payTenure" onchange="calculatePayEMI()" style="margin: 5px 0;">
+              <option value="36">3 Years Plan</option>
+              <option value="60" selected>5 Years Plan</option>
+              <option value="84">7 Years Plan</option>
+          </select>
+          <button class="pay-option" onclick="selectPay('EMI Installments')">Confirm EMI Plan</button>
+      </div>
+    </div>
+    <button onclick="finalCheckout()" style="margin-top: 20px; width: 100%; background: #22c55e;">Complete Transaction</button>
+  </div>
+</section>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyYFpHlUBUrtMKS3JE3rHCrrQZgXK4O1Gy5x-vCAeD27JzBrx82CaQ6rMd7nnfnxqZw/exec";
+let selectedMode = "";
+function submitBooking() {
+
+  const data = {
+    name: document.getElementById("regName").value,
+    email: document.getElementById("regEmail").value,
+    phone: document.getElementById("regPhone").value,
+    address: document.getElementById("regAddress").value,
+    car: selectedCarName,
+    price: currentCarPrice,
+    color: document.getElementById("regColor").value,
+    payment: selectedMode,
+    tenure: selectedTenure,
+    emi: selectedEMI,
+    interest: interestRate + "%",
+    total: selectedEMI * selectedTenure * 12
+  };
+
+  fetch(SHEET_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("Booking saved successfully!");
+  })
+  .catch(() => {
+    alert("Error saving booking");
+  });
+}
+let currentCarPrice = 0;
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function openDetails(name, img, price, info) {
+  currentCarPrice = price;
+  document.getElementById('dName').innerText = name;
+  document.getElementById('dImg').src = img;
+  document.getElementById('dPrice').innerText = "₹" + price.toLocaleString('en-IN');
+  document.getElementById('dInfo').innerText = info;
+  calculateDetailEMI();
+  showPage("details");
+}
+
+function calculateDetailEMI() {
+  const p = currentCarPrice;
+  const r = 9 / 12 / 100;
+  const n = document.getElementById('detailTenure').value;
+  const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  document.getElementById('detailEMIResult').innerText = "₹" + Math.round(emi).toLocaleString('en-IN');
+}
+
+function calculatePayEMI() {
+    // Just visual feedback for the user in payment screen
+    alert("EMI Updated for selected tenure.");
+}
+
+function validateLogin() {
+  showPage('cars');
+}
+
+function validateBooking() {
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  if(name === "" || email === "") {
+    alert("Please fill in your details.");
+  } else {
+    showPage('payment');
+  }
+}
+
+function selectPay(mode) {
+  selectedMode = mode;
+  document.querySelectorAll('.pay-option').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+function finalCheckout() {
+  if(selectedMode === "") {
+    alert("Please select a payment method.");
+  } else {
+    const color = document.getElementById('regColor').value;
+    alert("Booking Confirmed! You chose " + color + " with " + selectedMode + ".");
+  }
+}
+</script>
+
+</body>
+</html>
